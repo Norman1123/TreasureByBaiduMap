@@ -1,7 +1,13 @@
 package com.foxconn.norman.treasure.user.login;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -11,16 +17,19 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.foxconn.norman.treasure.MainActivity;
 import com.foxconn.norman.treasure.R;
+import com.foxconn.norman.treasure.commons.ActivityUtils;
 import com.foxconn.norman.treasure.commons.RegexUtils;
 import com.foxconn.norman.treasure.custom.AlertDialogFragment;
+import com.foxconn.norman.treasure.treasure.HomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 // 登录页面
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -32,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     Button mBtnLogin;
     private String mUserName;
     private String mPassword;
+    private ProgressDialog mProgressDialog;
+    private ActivityUtils mActivityUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
+
+        mActivityUtils = new ActivityUtils(this);
 
         ButterKnife.bind(this);
 
@@ -130,6 +143,38 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // 要去做登录的业务逻辑,模拟用户登录的场景，异步任务来模拟
+        new LoginPresenter(this).login();
+    }
 
+    //----------------------登录的业务过程中涉及的视图处理------------------------
+    // 跳转页面
+    @Override
+    public void navigateToHome() {
+        mActivityUtils.startActivity(HomeActivity.class);
+        finish();
+
+        // MainActivity是不是也需要关闭：发个本地广播的形式关闭
+        Intent intent = new Intent(MainActivity.MAIN_ACTION);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    // 显示信息
+    @Override
+    public void showMessage(String message) {
+        mActivityUtils.showToast(message);
+    }
+
+    // 隐藏进度条
+    @Override
+    public void hideProgress() {
+        if (mProgressDialog!=null){
+            mProgressDialog.dismiss();
+        }
+    }
+
+    // 进度条的显示
+    @Override
+    public void showProgress() {
+        mProgressDialog = ProgressDialog.show(this, "登录", "正在登录中，请稍后~");
     }
 }

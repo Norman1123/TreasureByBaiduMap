@@ -16,6 +16,7 @@ import com.foxconn.norman.treasure.user.register.RegisterActivity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.http.POST;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityUtils mActivityUtils;
@@ -56,5 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+
     }
 }

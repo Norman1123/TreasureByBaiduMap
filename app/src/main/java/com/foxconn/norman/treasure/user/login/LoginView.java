@@ -14,6 +14,4 @@ public interface LoginView {
     void showMessage(String msg);// 显示信息
 
     void navigateToHome();// 跳转页面
-
-
 }

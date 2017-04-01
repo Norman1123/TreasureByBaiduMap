@@ -2,6 +2,7 @@ package com.foxconn.norman.treasure.user.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.foxconn.norman.treasure.MainActivity;
 import com.foxconn.norman.treasure.R;
@@ -23,6 +25,9 @@ import com.foxconn.norman.treasure.commons.ActivityUtils;
 import com.foxconn.norman.treasure.commons.RegexUtils;
 import com.foxconn.norman.treasure.custom.AlertDialogFragment;
 import com.foxconn.norman.treasure.treasure.HomeActivity;
+import com.foxconn.norman.treasure.user.User;
+
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -143,13 +148,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         }
 
         // 要去做登录的业务逻辑,模拟用户登录的场景，异步任务来模拟
-        new LoginPresenter(this).login();
+
+        new LoginPresenter(this).login(new User(mUserName,mPassword));
     }
+
 
     //----------------------登录的业务过程中涉及的视图处理------------------------
     // 跳转页面
     @Override
     public void navigateToHome() {
+        Toast.makeText(this, "jjjjjj", Toast.LENGTH_SHORT).show();
         mActivityUtils.startActivity(HomeActivity.class);
         finish();
 

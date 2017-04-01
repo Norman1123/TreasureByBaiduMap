@@ -24,6 +24,7 @@
 
     <!--地图视图的宝藏-->
     <fragment
+        android:name="com.foxconn.norman.treasure.treasure.map.MapFragment"
         android:id="@+id/mapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

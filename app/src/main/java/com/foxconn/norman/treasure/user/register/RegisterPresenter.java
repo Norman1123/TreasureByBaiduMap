@@ -2,6 +2,15 @@ package com.foxconn.norman.treasure.user.register;
 
 import android.os.AsyncTask;
 
+
+import com.foxconn.norman.treasure.net.NetClient;
+import com.foxconn.norman.treasure.user.User;
+import com.foxconn.norman.treasure.user.UserPrefs;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by gqq on 2017/3/28.
  */
@@ -15,39 +24,43 @@ public class RegisterPresenter {
     }
 
     // 注册的业务实现
-    public void register(){
-        new AsyncTask<Void, Integer, Void>() {
+    public void register(User user){
 
+        // 显示进度条
+        mRegisterView.showProgress();
+
+        NetClient.getInstance().getTreasureApi().register(user).enqueue(new Callback<RegisterResult>() {
+
+            // 请求成功
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                // 进度条展示
-                mRegisterView.showProgress();
-            }
+            public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
+                mRegisterView.hideProgress();// 隐藏进度
+                // 响应成功
+                if (response.isSuccessful()){
+                    RegisterResult registerResult = response.body();
 
-            @Override
-            protected Void doInBackground(Void... params) {
+                    // 响应体是不是为null
+                    if (registerResult==null){
+                        mRegisterView.showMessage("未知的错误");
+                        return;
+                    }
+                    if(registerResult.getCode()==1){
 
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        // 真正的注册成功了
+                        // 保存Tokenid
+                        UserPrefs.getInstance().setTokenid(registerResult.getTokenId());
+                        mRegisterView.navigateToHome();
+                    }
+                    mRegisterView.showMessage(registerResult.getMsg());
                 }
-
-                return null;
             }
 
+            // 请求失败
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-                // 拿到数据处理UI
-                // 隐藏进度、显示信息、跳转页面
-                mRegisterView.hideProgress();
-                mRegisterView.showMessage("注册成功");
-                mRegisterView.navigateToHome();
-
+            public void onFailure(Call<RegisterResult> call, Throwable t) {
+                mRegisterView.hideProgress();// 隐藏进度
+                mRegisterView.showMessage("请求失败："+t.getMessage());
             }
-        }.execute();
+        });
     }
 }

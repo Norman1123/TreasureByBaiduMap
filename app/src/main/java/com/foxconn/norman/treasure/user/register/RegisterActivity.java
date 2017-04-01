@@ -13,12 +13,14 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+
 import com.foxconn.norman.treasure.MainActivity;
 import com.foxconn.norman.treasure.R;
 import com.foxconn.norman.treasure.commons.ActivityUtils;
 import com.foxconn.norman.treasure.commons.RegexUtils;
 import com.foxconn.norman.treasure.custom.AlertDialogFragment;
 import com.foxconn.norman.treasure.treasure.HomeActivity;
+import com.foxconn.norman.treasure.user.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     public void onClick() {
 
         // 账号和密码是否符合规范
-        if (RegexUtils.verifyUsername(mUserName)!= RegexUtils.VERIFY_SUCCESS){
+        if (RegexUtils.verifyUsername(mUserName)!=RegexUtils.VERIFY_SUCCESS){
 
             // 显示一个对话框提示
             AlertDialogFragment.getInstances(getString(R.string.username_error),getString(R.string.username_rules))
@@ -136,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         }
 
         // 进行注册的业务
-        new RegisterPresenter(this).register();
+        new RegisterPresenter(this).register(new User(mUserName,mPassword));
     }
 
     //---------------------------注册过程中涉及到的视图--------------------------

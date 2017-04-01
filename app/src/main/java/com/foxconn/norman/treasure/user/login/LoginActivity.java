@@ -157,7 +157,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     // 跳转页面
     @Override
     public void navigateToHome() {
-        Toast.makeText(this, "jjjjjj", Toast.LENGTH_SHORT).show();
         mActivityUtils.startActivity(HomeActivity.class);
         finish();
 

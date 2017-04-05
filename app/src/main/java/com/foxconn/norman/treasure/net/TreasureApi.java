@@ -1,9 +1,13 @@
 package com.foxconn.norman.treasure.net;
 
 
+import com.foxconn.norman.treasure.treasure.Area;
+import com.foxconn.norman.treasure.treasure.Treasure;
 import com.foxconn.norman.treasure.user.User;
 import com.foxconn.norman.treasure.user.login.LoginResult;
 import com.foxconn.norman.treasure.user.register.RegisterResult;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,5 +26,9 @@ public interface TreasureApi {
     // 注册的请求
     @POST("/Handler/UserHandler.ashx?action=register")
     Call<RegisterResult> register(@Body User user);
+
+    // 获取区域内的宝藏数据
+    @POST("/Handler/TreasureHandler.ashx?action=show")
+    Call<List<Treasure>> getTreasureInArea(@Body Area area);
 
 }

@@ -106,6 +106,7 @@ public class MapFragment extends Fragment implements MapMvpView{
     private ActivityUtils mActivityUtils;
     private Marker mCurrentMarker;
 
+
     //权限集合
     private String NotGrantedPermissions[]=new String[]{
             Manifest.permission.READ_PHONE_STATE,
@@ -503,6 +504,15 @@ public class MapFragment extends Fragment implements MapMvpView{
             LatLng latlng = new LatLng(treasure.getLatitude(),treasure.getLongitude());
             addMarker(latlng,treasure.getId());
         }
+    }
+    // 对外提供一个方法，什么时候可以退出
+    public boolean clickBackPressed(){
+
+        if (mUIMode!=UI_MODE_NORMAL){
+            changeUIMode(UI_MODE_NORMAL);
+            return false;
+        }
+        return true;
     }
 
     // 处理权限的回调

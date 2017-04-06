@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  */
 
 // 宝藏的列表视图
-public class MapListFragment extends Fragment{
+public class TreasureListFragment extends Fragment{
 
     @Nullable
     @Override

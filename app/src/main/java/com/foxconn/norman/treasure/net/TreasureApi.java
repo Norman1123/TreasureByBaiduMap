@@ -3,6 +3,8 @@ package com.foxconn.norman.treasure.net;
 
 import com.foxconn.norman.treasure.treasure.Area;
 import com.foxconn.norman.treasure.treasure.Treasure;
+import com.foxconn.norman.treasure.treasure.detail.TreasureDetail;
+import com.foxconn.norman.treasure.treasure.detail.TreasureDetailResult;
 import com.foxconn.norman.treasure.user.User;
 import com.foxconn.norman.treasure.user.login.LoginResult;
 import com.foxconn.norman.treasure.user.register.RegisterResult;
@@ -30,5 +32,9 @@ public interface TreasureApi {
     // 获取区域内的宝藏数据
     @POST("/Handler/TreasureHandler.ashx?action=show")
     Call<List<Treasure>> getTreasureInArea(@Body Area area);
+
+    //获取宝藏详情数据获取
+    @POST("/Handler/TreasureHandler.ashx?action=tdetails")
+    Call<List<TreasureDetailResult>> getTreasureDetail(@Body TreasureDetail treasureDetail);
 
 }
